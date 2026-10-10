@@ -27,12 +27,6 @@
     var body = ICONS[name] || ICONS[name.split(":")[0]] || "";
     return '<svg class="i' + (cls ? " " + cls : "") + '" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">' + body + "</svg>";
   }
-  function logo(cls) {
-    return '<svg class="' + (cls || "") + '" viewBox="0 0 48 48" aria-hidden="true" focusable="false">' +
-      '<path d="M24 3.5 41.75 13.75v20.5L24 44.5 6.25 34.25v-20.5Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>' +
-      '<path d="M24 15.5 15.8 29.5h16.4Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" opacity=".55"/>' +
-      '<circle cx="24" cy="15.5" r="3.6" fill="currentColor"/><circle cx="15.8" cy="29.5" r="3.6" fill="currentColor"/><circle cx="32.2" cy="29.5" r="3.6" fill="currentColor"/></svg>';
-  }
   function photo(c, eager) {
     var html = '<div class="ph" aria-hidden="true">' + ic("user:f") + "</div>";
     if (c.photo) {
@@ -42,13 +36,13 @@
   }
   function roleOf(c) { return ROLE[c.role] || ROLE.member; }
   function plural(n, word) { return n + " " + word + (n === 1 ? "" : "s"); }
+  var YEC_LOGO = '<img class="yec-logo" src="assets/img/yec-logo.png" alt="Young Engineers Connect" width="578" height="223">';
   function brand() {
-    return '<a class="brand" href="index.html" aria-label="' + esc(P.name) + ' home page">' +
-      '<span class="brand__mark">' + logo() + "</span>" +
-      '<span class="brand__text topbar__name"><b>' + esc(P.name) + "</b><span>" + esc(P.election) + "</span></span></a>";
+    return '<a class="brand" href="index.html" aria-label="Young Engineers Connect home page">' + YEC_LOGO + "</a>";
   }
-  function brandStatic() {
-    return '<span class="brand"><span class="brand__mark">' + logo() + '</span><span class="brand__text"><b>' + esc(P.name) + "</b><span>" + esc(P.election) + "</span></span></span>";
+  function iebBadge() {
+    return '<div class="ieb"><span class="ieb__seal"><img src="assets/img/ieb-logo.png" alt="The Institution of Engineers, Bangladesh logo" width="320" height="320"></span>' +
+      '<span class="ieb__text">' + esc(P.election) + "</span></div>";
   }
   function footer() {
     var links = "";
@@ -57,7 +51,7 @@
     links += '<a href="qr.html">' + ic("qr-code") + "<span>Panel QR code</span></a>";
     return '<footer class="footer"><div class="wrap">' +
       '<div class="footer__grid">' +
-        '<div class="footer__about">' + brandStatic() + "<p>" + esc(P.slogan) + ". Vote for all " + C.length + " candidates of the panel in the " + esc(P.election) + ".</p></div>" +
+        '<div class="footer__about"><span class="brand brand--footer">' + YEC_LOGO + "</span><p>" + esc(P.slogan) + ". Vote for all " + C.length + " candidates of the panel in the " + esc(P.election) + ".</p></div>" +
         '<nav class="footer__links" aria-label="Contact">' + links + "</nav>" +
       "</div>" +
       '<div class="footer__base"><span>© 2026 ' + esc(P.name) + "</span><span>Published for election campaign purposes</span></div>" +
@@ -104,15 +98,9 @@
   }
 
   /* ---------- home ---------- */
-  function titleHtml(name) {
-    var parts = String(name).trim().split(/\s+/);
-    if (parts.length < 2) return esc(name);
-    var last = parts.pop();
-    return esc(parts.join(" ")) + " <span>" + esc(last) + "</span>";
-  }
   function card(c, variant, n) {
     var r = roleOf(c);
-    return '<article class="card card--' + variant + '" style="--n:' + n + '">' +
+    return '<article class="card card--' + variant + " card--role-" + c.role + '" style="--n:' + n + '">' +
       '<div class="card__media"><div class="card__photo photo">' + photo(c, true) + "</div></div>" +
       '<div class="card__body">' +
         '<div class="card__head"><h3 class="card__name">' + esc(c.name) + "</h3>" +
@@ -127,8 +115,9 @@
   }
 
   function renderHome() {
-    var pres = C.filter(function (c) { return c.role === "president"; });
-    var pair = C.filter(function (c) { return c.role === "vice-president" || c.role === "secretary"; });
+    var top = ["president", "vice-president", "secretary"].map(function (r) {
+      return C.filter(function (c) { return c.role === r; })[0];
+    }).filter(Boolean);
     var mem = C.filter(function (c) { return c.role === "member"; });
     var n = 0;
     var facts = [
@@ -143,19 +132,16 @@
       '<header class="mast blueprint">' +
         '<svg class="mast__art" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3.5 41.75 13.75v20.5L24 44.5 6.25 34.25v-20.5Z" fill="none" stroke="currentColor" stroke-width=".5"/><path d="M24 9.5 36.55 16.75v14.5L24 38.5 11.45 31.25v-14.5Z" fill="none" stroke="currentColor" stroke-width=".3"/></svg>' +
         '<div class="wrap mast__in">' +
-          '<span class="mast__emblem" aria-hidden="true">' + logo() + "</span>" +
-          '<h1 class="mast__title">' + titleHtml(P.name) + "</h1>" +
-          '<p class="mast__election"><span class="mast__rule" aria-hidden="true"></span><span>' + esc(P.election) + '</span><span class="mast__rule" aria-hidden="true"></span></p>' +
+          '<h1 class="mast__logo">' + YEC_LOGO + "</h1>" +
+          iebBadge() +
           (facts ? '<ul class="mast__facts">' + facts + "</ul>" : "") +
         "</div>" +
         '<span class="mast__line" aria-hidden="true"></span>' +
       "</header>" +
       '<main id="main">' +
         '<section class="panel wrap" aria-label="Panel candidates">' +
-          '<p class="tier-label">Running for President</p>' +
-          '<div class="tier tier--lead">' + pres.map(function (c) { return card(c, "lead", n++); }).join("") + "</div>" +
-          '<p class="tier-label">Vice-President &amp; Secretary</p>' +
-          '<div class="tier tier--pair">' + pair.map(function (c) { return card(c, "pair", n++); }).join("") + "</div>" +
+          '<p class="tier-label">President · Vice-President · Secretary</p>' +
+          '<div class="tier tier--top">' + top.map(function (c) { return card(c, c.role === "president" ? "lead" : "pair", n++); }).join("") + "</div>" +
           '<p class="tier-label">Members · ' + plural(mem.length, "Candidate") + "</p>" +
           '<div class="tier tier--members">' + mem.map(function (c) { return card(c, "member", n++); }).join("") + "</div>" +
         "</section>" +
@@ -332,8 +318,7 @@
 
   /* ---------- QR page ---------- */
   function renderQR() {
-    var defUrl = new URL("./", location.href).href;
-    var note0 = "Press and hold the image (phone) or right-click it (computer) to save it.";
+    var src = P.qrImage || "assets/img/panel-qr.jpg";
     app.innerHTML =
       '<header class="topbar"><div class="wrap topbar__in">' + brand() +
         '<a class="toplink" href="index.html">' + ic("arrow-left:r") + "All Candidates</a></div></header>" +
@@ -341,148 +326,18 @@
         '<section class="qr-hero blueprint"><div class="wrap">' +
           '<span class="eyebrow">' + ic("qr-code") + "Scan code for voters</span>" +
           "<h1>Panel QR Code</h1>" +
-          "<p>Make a QR code from the website address. Print it on posters, leaflets or banners, and voters can scan it with their phone camera to see every candidate's profile.</p>" +
+          "<p>Scan the code with your phone camera, or save the poster to share it.</p>" +
         "</div></section>" +
-        '<div class="wrap qr-grid">' +
-          '<section class="block">' +
-            '<h2 class="block__title">' + ic("link") + "Website Address</h2>" +
-            '<form id="qr-form" class="field" novalidate>' +
-              '<label for="qr-url">Link inside the QR code</label>' +
-              '<input id="qr-url" name="qr-url" type="url" inputmode="url" autocomplete="url" spellcheck="false" value="' + esc(defUrl) + '">' +
-              "<small>Once the site is hosted, enter your domain, for example https://www.yourdomain.com/</small>" +
-              '<label class="check" for="qr-dots"><input id="qr-dots" type="checkbox"> Rounded-dot style (softer look, but some older scanner apps may not read it)</label>' +
-              '<div class="qr-actions"><button class="btn" type="submit">' + ic("qr-code") + 'Generate QR</button>' +
-              '<a class="btn btn--ghost" id="qr-dl" href="#" download="young-engineers-connect-qr.png">' + ic("download-simple:r") + "Download PNG</a></div>" +
-            "</form>" +
-            '<ol class="steps"><li>Host the website (any static hosting works).</li><li>Enter the site address above and generate the QR code.</li><li>Download the image and scan it once with your own phone before printing.</li></ol>' +
-          "</section>" +
-          '<section class="block qr-out" aria-live="polite"><img id="qr-img" alt="QR code for the Young Engineers Connect panel website"><p id="qr-note">' + note0 + "</p></section>" +
+        '<div class="wrap qr-wrap">' +
+          '<figure class="qr-poster">' +
+            '<a href="' + esc(src) + '" target="_blank" rel="noopener"><img src="' + esc(src) + '" alt="Young Engineers Connect panel QR code poster for the IEB Election 2027-28" width="1400" height="1857"></a>' +
+            '<figcaption class="qr-actions">' +
+              '<a class="btn" href="' + esc(src) + '" download="Young-Engineers-Connect-Panel-QR.jpg">' + ic("download-simple:r") + "Download Poster</a>" +
+              '<a class="btn btn--ghost" href="' + esc(src) + '" target="_blank" rel="noopener">' + ic("arrow-up-right:r") + "Open Full Size</a>" +
+            "</figcaption>" +
+          "</figure>" +
         "</div>" +
       "</main>" + footer();
-
-    var form = document.getElementById("qr-form");
-    var input = document.getElementById("qr-url");
-    var img = document.getElementById("qr-img");
-    var dl = document.getElementById("qr-dl");
-    var note = document.getElementById("qr-note");
-    function go() {
-      var url = (input.value || "").trim();
-      if (!url) { note.className = "qr-err"; note.textContent = "Enter the website address first."; return; }
-      if (typeof window.qrcode !== "function") { note.className = "qr-err"; note.textContent = "The QR library didn't load. Check your internet connection and reload the page."; return; }
-      drawQR(url, !document.getElementById("qr-dots").checked).then(function (canvas) {
-        var data = canvas.toDataURL("image/png");
-        img.src = data;
-        dl.href = data;
-        note.className = "";
-        note.textContent = note0;
-      });
-    }
-    form.addEventListener("submit", function (e) { e.preventDefault(); go(); });
-    document.getElementById("qr-dots").addEventListener("change", go);
-    go();
-  }
-
-  function drawQR(url, square) {
-    var fontsReady = (document.fonts && document.fonts.load)
-      ? Promise.all([document.fonts.load('800 60px "Archivo"'), document.fonts.load('600 30px "Instrument Sans"'), document.fonts.load('500 24px "IBM Plex Mono"')]).catch(function () {})
-      : Promise.resolve();
-    return fontsReady.then(function () {
-      var q = window.qrcode(0, "H");
-      q.addData(url);
-      q.make();
-      var n = q.getModuleCount();
-      var W = 1080, H = 1350;
-      var cv = document.createElement("canvas");
-      cv.width = W; cv.height = H;
-      var x = cv.getContext("2d");
-
-      // background
-      x.fillStyle = "#FFFFFF"; x.fillRect(0, 0, W, H);
-      var g = x.createLinearGradient(0, 0, W, 360);
-      g.addColorStop(0, "#172C6B"); g.addColorStop(.52, "#1F4FD1"); g.addColorStop(1, "#0AA5C7");
-      x.fillStyle = g; x.fillRect(0, 0, W, 330);
-      x.strokeStyle = "rgba(255,255,255,.08)"; x.lineWidth = 2;
-      for (var gx = 0; gx <= W; gx += 60) { x.beginPath(); x.moveTo(gx, 0); x.lineTo(gx, 330); x.stroke(); }
-      for (var gy = 0; gy <= 330; gy += 60) { x.beginPath(); x.moveTo(0, gy); x.lineTo(W, gy); x.stroke(); }
-
-      drawLogo(x, W / 2, 102, 92, "#FFFFFF");
-      x.textAlign = "center"; x.fillStyle = "#FFFFFF";
-      x.font = '800 66px "Archivo", "Helvetica Neue", Arial, sans-serif';
-      x.fillText(P.name, W / 2, 228);
-      x.font = '600 32px "Instrument Sans", "Helvetica Neue", Arial, sans-serif';
-      x.fillStyle = "#F7C95C";
-      x.fillText(P.election, W / 2, 284);
-
-      // QR body
-      var box = 760, quiet = 4, cell = box / (n + quiet * 2);
-      var ox = (W - box) / 2, oy = 390;
-      x.fillStyle = "#FFFFFF";
-      roundRect(x, ox - 12, oy - 12, box + 24, box + 24, 36); x.fill();
-      x.strokeStyle = "#DCE3EE"; x.lineWidth = 3; x.stroke();
-      var qg = x.createLinearGradient(ox, oy, ox + box, oy + box);
-      qg.addColorStop(0, "#0F2259"); qg.addColorStop(1, "#1B47C2");
-      x.fillStyle = qg;
-      function inFinder(r, c) {
-        return (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7);
-      }
-      for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) {
-        if (!q.isDark(r, c) || inFinder(r, c)) continue;
-        if (square) { x.fillRect(Math.floor(ox + (c + quiet) * cell), Math.floor(oy + (r + quiet) * cell), Math.ceil(cell) + 1, Math.ceil(cell) + 1); continue; }
-        roundRect(x, ox + (c + quiet) * cell + cell * .05, oy + (r + quiet) * cell + cell * .05, cell * .9, cell * .9, cell * .24);
-        x.fill();
-      }
-      var rr = square ? 0 : 1;
-      [[0, 0], [0, n - 7], [n - 7, 0]].forEach(function (p) {
-        var fx = ox + (p[1] + quiet) * cell, fy = oy + (p[0] + quiet) * cell;
-        x.fillStyle = qg; roundRect(x, fx, fy, cell * 7, cell * 7, cell * 1.9 * rr); x.fill();
-        x.fillStyle = "#FFFFFF"; roundRect(x, fx + cell, fy + cell, cell * 5, cell * 5, cell * 1.3 * rr); x.fill();
-        x.fillStyle = qg; roundRect(x, fx + cell * 2, fy + cell * 2, cell * 3, cell * 3, cell * .9 * rr); x.fill();
-      });
-      // centre badge
-      var b = box * .2, bx = W / 2 - b / 2, by = oy + box / 2 - b / 2;
-      x.fillStyle = "#FFFFFF"; roundRect(x, bx - 8, by - 8, b + 16, b + 16, 28); x.fill();
-      var bg = x.createLinearGradient(bx, by, bx + b, by + b);
-      bg.addColorStop(0, "#172C6B"); bg.addColorStop(1, "#1F4FD1");
-      x.fillStyle = bg; roundRect(x, bx, by, b, b, 22); x.fill();
-      drawLogo(x, W / 2, oy + box / 2, b * .66, "#FFFFFF");
-
-      // caption
-      x.textAlign = "center";
-      x.fillStyle = "#0C1A35";
-      x.font = '700 44px "Archivo", "Helvetica Neue", Arial, sans-serif';
-      x.fillText("Scan to meet the candidates", W / 2, 1236);
-      x.fillStyle = "#55657F";
-      x.font = '500 24px "IBM Plex Mono", monospace';
-      var shown = url.replace(/^https?:\/\//, "").replace(/\/$/, "");
-      if (shown.length > 58) shown = shown.slice(0, 55) + "…";
-      x.fillText(shown, W / 2, 1290);
-      return cv;
-    });
-  }
-  function roundRect(x, X, Y, w, h, r) {
-    r = Math.min(r, w / 2, h / 2);
-    if (r <= 0) { x.beginPath(); x.rect(X, Y, w, h); return; }
-    x.beginPath();
-    x.moveTo(X + r, Y);
-    x.arcTo(X + w, Y, X + w, Y + h, r);
-    x.arcTo(X + w, Y + h, X, Y + h, r);
-    x.arcTo(X, Y + h, X, Y, r);
-    x.arcTo(X, Y, X + w, Y, r);
-    x.closePath();
-  }
-  function drawLogo(x, cx, cy, size, color) {
-    var s = size / 48;
-    x.save();
-    x.translate(cx - 24 * s, cy - 24 * s);
-    x.scale(s, s);
-    x.strokeStyle = color; x.fillStyle = color; x.lineJoin = "round";
-    x.lineWidth = 3;
-    x.beginPath(); x.moveTo(24, 3.5); x.lineTo(41.75, 13.75); x.lineTo(41.75, 34.25); x.lineTo(24, 44.5); x.lineTo(6.25, 34.25); x.lineTo(6.25, 13.75); x.closePath(); x.stroke();
-    x.globalAlpha = .55; x.lineWidth = 2.2;
-    x.beginPath(); x.moveTo(24, 15.5); x.lineTo(15.8, 29.5); x.lineTo(32.2, 29.5); x.closePath(); x.stroke();
-    x.globalAlpha = 1;
-    [[24, 15.5], [15.8, 29.5], [32.2, 29.5]].forEach(function (p) { x.beginPath(); x.arc(p[0], p[1], 3.6, 0, Math.PI * 2); x.fill(); });
-    x.restore();
   }
 
   /* ---------- boot ---------- */

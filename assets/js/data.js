@@ -27,7 +27,7 @@
 window.YEC = {
   panel: {
     name: "Young Engineers Connect",
-    election: "Executive Committee Election 2026",
+    election: "IEB Election 2027-28",
     slogan: "A stronger voice for young engineers",
     intro:
       "Nine of us are standing together for professional dignity, skills development and fair opportunities for young engineers. Each candidate's profile and ballot number is below.",

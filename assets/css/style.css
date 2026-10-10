@@ -21,7 +21,7 @@
   --gold-soft: #FFF3D6;
   --gold-ink: #865705;
   --gold-line: #EFD39A;
-  --gold-bright: #F7C95C;
+  --gold-bright: #FFD21F; /* YEC logo yellow */
   --on-brand: #FFFFFF;
   --on-brand-soft: rgba(255, 255, 255, .78);
   --glass: rgba(255, 255, 255, .10);
@@ -55,7 +55,7 @@
     --tint: #14244A;
     --tint-ink: #8FB2FF;
     --gold-soft: rgba(240, 190, 90, .12);
-    --gold-ink: #F2C766;
+    --gold-ink: #FFD54F;
     --gold-line: rgba(240, 190, 90, .32);
     --footer-bg: #040917;
     --chip-bg: #1C2F62;
@@ -76,7 +76,7 @@
   --tint: #14244A;
   --tint-ink: #8FB2FF;
   --gold-soft: rgba(240, 190, 90, .12);
-  --gold-ink: #F2C766;
+  --gold-ink: #FFD54F;
   --gold-line: rgba(240, 190, 90, .32);
   --footer-bg: #040917;
   --chip-bg: #1C2F62;
@@ -130,16 +130,9 @@ p { margin: 0; }
 }
 
 /* ---------- brand mark ---------- */
-.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
-.brand__mark {
-  width: 44px; height: 44px; display: grid; place-items: center; flex: none;
-  border-radius: 13px; background: var(--glass); border: 1px solid var(--glass-line);
-  color: var(--on-brand);
-}
-.brand__mark svg { width: 30px; height: 30px; }
-.brand__text { display: grid; line-height: 1.2; }
-.brand__text b { font-family: var(--f-display); font-weight: 700; font-size: 1rem; letter-spacing: .01em; }
-.brand__text span { font-size: .78rem; color: var(--on-brand-soft); }
+.brand { display: inline-flex; align-items: center; text-decoration: none; border-radius: 8px; }
+.yec-logo { display: block; width: auto; height: 44px; max-width: none; }
+.brand--footer .yec-logo { height: 64px; }
 
 /* ---------- masthead (home): centred, title + election + facts only ---------- */
 .mast {
@@ -158,37 +151,29 @@ p { margin: 0; }
   color: rgba(255,255,255,.08); pointer-events: none;
 }
 .mast__in { display: flex; flex-direction: column; align-items: center; }
-.mast__emblem {
-  width: 64px; height: 64px; display: grid; place-items: center; border-radius: 20px;
-  background: linear-gradient(160deg, rgba(255,255,255,.22), rgba(255,255,255,.06));
-  border: 1px solid rgba(255,255,255,.32); color: #FFFFFF;
-  box-shadow: 0 0 0 6px rgba(255,255,255,.05), 0 18px 40px -16px rgba(2,8,30,.8);
+.mast__logo { margin: 0; line-height: 0; }
+.mast__logo .yec-logo { height: auto; width: clamp(250px, 40vw, 430px); max-width: 100%; filter: drop-shadow(0 10px 28px rgba(2,8,30,.45)); }
+
+/* IEB ELECTION 2027-28 badge: navy bar with gold border, IEB seal overlapping the left edge */
+.ieb {
+  --seal: 92px;
+  position: relative; display: inline-flex; align-items: center;
+  margin: 38px 0 0 calc(var(--seal) * .42);
+  min-height: calc(var(--seal) * .68); padding: 8px 30px 8px calc(var(--seal) * .66);
+  background: #0B1A31; border: 2px solid #E2B64B; border-radius: 20px;
+  box-shadow: 0 18px 40px -20px rgba(2,8,30,.9);
 }
-.mast__emblem svg { width: 40px; height: 40px; }
-.mast__title {
-  margin-top: 22px; max-width: 100%;
-  font-size: clamp(1.75rem, 7.1vw, 4.6rem);
-  font-weight: 800; font-stretch: 78%;
-  letter-spacing: -.012em; line-height: 1.02; text-wrap: balance;
-  text-shadow: 0 6px 30px rgba(2,8,30,.35);
+.ieb__seal {
+  position: absolute; left: calc(var(--seal) * -.42); top: 50%; transform: translateY(-50%);
+  width: var(--seal); height: var(--seal); border-radius: 50%; background: #FFFFFF;
+  border: 3px solid #E2B64B; display: grid; place-items: center; overflow: hidden;
+  box-shadow: 0 8px 22px -8px rgba(2,8,30,.8);
 }
-.mast__title span {
-  color: var(--gold-bright);
-  background: linear-gradient(180deg, #FFE7A6 10%, #F7C95C 55%, #E7A93A 100%);
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  text-shadow: none;
+.ieb__seal img { width: 88%; height: 88%; object-fit: contain; }
+.ieb__text {
+  color: #FFFFFF; font-family: var(--f-body); font-weight: 500; text-transform: uppercase;
+  font-size: clamp(1.2rem, 2.6vw, 1.75rem); line-height: 1.15; letter-spacing: .01em; white-space: nowrap;
 }
-.mast__election {
-  display: flex; align-items: center; justify-content: center; gap: 16px; width: 100%; max-width: 760px;
-  margin-top: 16px; font-family: var(--f-display); font-stretch: 92%;
-  font-size: clamp(.84rem, 2.1vw, 1.15rem); font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
-  color: #FFFFFF;
-}
-.mast__rule { flex: 1; max-width: 120px; height: 1px; background: linear-gradient(90deg, rgba(247,201,92,0), #F7C95C); position: relative; }
-.mast__rule:last-child { background: linear-gradient(90deg, #F7C95C, rgba(247,201,92,0)); }
-.mast__rule::after { content: ""; position: absolute; top: -3px; width: 7px; height: 7px; background: #F7C95C; transform: rotate(45deg); }
-.mast__rule:first-child::after { right: -2px; }
-.mast__rule:last-child::after { left: -2px; }
 .mast__facts {
   margin: 32px 0 0; padding: 8px; list-style: none;
   display: grid; grid-template-columns: repeat(3, auto); align-items: stretch;
@@ -200,7 +185,7 @@ p { margin: 0; }
 .mast__facts li + li { border-left: 1px solid rgba(255,255,255,.14); }
 .mast__ic {
   width: 46px; height: 46px; flex: none; display: grid; place-items: center; border-radius: 14px;
-  background: linear-gradient(145deg, #FFE7A6, #F2BC4E 55%, #D99A2B);
+  background: linear-gradient(145deg, #FFE87A, #FFD21F 55%, #E3B400);
   color: #13235A; box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 8px 18px -8px rgba(247,201,92,.7);
 }
 .mast__ic .i { width: 24px; height: 24px; }
@@ -234,8 +219,10 @@ p { margin: 0; }
 .tier { display: grid; gap: 22px; justify-content: center; }
 /* one card width for all 9 cards: wide enough for the longest name on one line */
 .panel { --card-w: 330px; --photo-h: 229px; }
-.tier--lead { grid-template-columns: minmax(0, var(--card-w)); }
-.tier--pair { grid-template-columns: repeat(2, minmax(0, var(--card-w))); gap: 22px; }
+.tier--top { --raise: 64px; grid-template-columns: repeat(3, minmax(0, var(--card-w))); align-items: start; }
+.tier--top .card--role-vice-president { grid-column: 1; grid-row: 1; margin-top: var(--raise); }
+.tier--top .card--role-president { grid-column: 2; grid-row: 1; }
+.tier--top .card--role-secretary { grid-column: 3; grid-row: 1; margin-top: var(--raise); }
 .tier--members { grid-template-columns: repeat(3, minmax(0, var(--card-w))); }
 
 /* ---------- candidate card ---------- */
@@ -348,8 +335,6 @@ p { margin: 0; }
   color: var(--on-brand); border-bottom: 1px solid rgba(255,255,255,.1);
 }
 .topbar__in { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; }
-.topbar .brand__mark { width: 38px; height: 38px; border-radius: 11px; }
-.topbar .brand__mark svg { width: 26px; height: 26px; }
 
 .phero { padding-block: 48px 40px; }
 .phero__grid { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 48px; align-items: center; }
@@ -512,44 +497,33 @@ p { margin: 0; }
 .qr-hero { padding-block: 44px 120px; }
 .qr-hero h1 { margin-top: 16px; font-size: clamp(2.1rem, 5vw, 3.2rem); font-weight: 800; font-stretch: 84%; }
 .qr-hero p { margin-top: 10px; max-width: 60ch; color: var(--on-brand-soft); }
-.qr-grid { margin-top: -84px; position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 24px; align-items: start; }
-.field { display: grid; gap: 8px; }
-.field label { font-weight: 600; }
-.field input[type="url"] {
-  width: 100%; min-height: 48px; padding: 10px 14px; border-radius: 12px; font: 500 1rem var(--f-mono);
-  background: var(--surface-2); color: var(--ink); border: 1px solid var(--line-strong);
-}
-.field input[type="url"]:focus { outline: 3px solid var(--brand-3); outline-offset: 1px; }
-.field small { color: var(--muted); font-size: .88rem; }
-.check { display: flex; align-items: flex-start; gap: 10px; margin-top: 6px; font-weight: 500 !important; font-size: .94rem; cursor: pointer; }
-.check input { width: 18px; height: 18px; margin: 5px 0 0; accent-color: var(--brand-2); flex: none; }
-.steps { margin: 20px 0 0; padding-left: 1.3em; display: grid; gap: 8px; color: var(--muted); }
-.qr-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-.qr-out { display: grid; gap: 14px; justify-items: center; }
-.qr-out img { width: 100%; max-width: 380px; border-radius: 18px; box-shadow: var(--shadow-lg); background: #FFFFFF; }
-.qr-out p { font-size: .88rem; color: var(--muted); text-align: center; }
-.qr-err { color: #C2410C; font-weight: 600; }
+.qr-wrap { margin-top: -84px; position: relative; z-index: 1; }
+.qr-poster { margin: 0 auto; display: grid; justify-items: center; gap: 20px; max-width: 520px; }
+.qr-poster > a { display: block; width: 100%; border-radius: 20px; }
+.qr-poster img { display: block; width: 100%; height: auto; border-radius: 20px; box-shadow: var(--shadow-lg); }
+.qr-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 
 /* =====================================================================
    Responsive
    ===================================================================== */
 @media (min-width: 721px) and (max-width: 959px) {
   .tier--members { grid-template-columns: repeat(2, minmax(0, var(--card-w))); } /* 3 rows of 2 so names stay on one line */
+  /* President on top, VP and Secretary side by side below */
+  .tier--top { grid-template-columns: repeat(2, minmax(0, var(--card-w))); }
+  .tier--top .card--role-president { grid-column: 1 / -1; grid-row: 1; justify-self: center; width: calc((100% - 22px) / 2); }
+  .tier--top .card--role-vice-president { grid-column: 1; grid-row: 2; margin-top: 0; }
+  .tier--top .card--role-secretary { grid-column: 2; grid-row: 2; margin-top: 0; }
 }
 @media (max-width: 1000px) {
   .profile { grid-template-columns: minmax(0, 1fr); }
   .profile__aside { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .qr-grid { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 720px) {
   .mast { padding-block: 40px 44px; }
   .mast__art { width: 420px; height: 420px; }
-  .mast__emblem { width: 54px; height: 54px; border-radius: 17px; }
-  .mast__emblem svg { width: 34px; height: 34px; }
-  .mast__title { margin-top: 18px; }
-  .mast__election { gap: 10px; letter-spacing: .12em; }
-  .mast__rule { max-width: 44px; }
+  .ieb { --seal: 74px; margin-top: 30px; padding-right: 18px; border-radius: 16px; }
+  .ieb__text { font-size: clamp(.98rem, 4.6vw, 1.3rem); }
   .mast__facts { grid-template-columns: minmax(0, 1fr); width: 100%; max-width: 380px; padding: 6px 8px; margin-top: 26px; }
   .mast__facts li { padding: 10px 6px; }
   .mast__facts li + li { border-left: 0; border-top: 1px solid rgba(255,255,255,.14); }
@@ -557,25 +531,26 @@ p { margin: 0; }
   .panel { padding-top: 0; }
   .tier-label { margin: 30px auto 14px; font-size: .74rem; }
   .tier { gap: 14px; }
-  .tier--lead, .tier--pair { grid-template-columns: minmax(0, 1fr); }
+  .tier--top { grid-template-columns: minmax(0, 1fr); }
+  .tier--top .card { grid-column: auto; grid-row: auto; width: auto; margin-top: 0; } /* stacked: President, VP, Secretary */
 
   /* President, VP and secretary: one per row, photo beside the details */
-  .tier--lead .card, .tier--pair .card { flex-direction: row; align-items: center; padding: 10px; }
+  .tier--top .card { flex-direction: row; align-items: center; padding: 10px; }
   .card__media { height: auto; aspect-ratio: 10 / 9; max-height: var(--photo-h); }
-  .tier--lead .card__media, .tier--pair .card__media { width: 40%; flex: none; }
-  .tier--lead .card__photo, .tier--pair .card__photo { border-radius: 13px; }
+  .tier--top .card__media { width: 40%; flex: none; }
+  .tier--top .card__photo { border-radius: 13px; }
   .role-chip { font-size: .8rem; padding: 5px 12px 5px 9px; }
-  .tier--lead .card__head, .tier--pair .card__head { gap: 8px; }
-  .tier--lead .card__body, .tier--pair .card__body { justify-content: center; padding: 2px 2px 2px 4px; gap: 10px; min-width: 0; }
+  .tier--top .card__head { gap: 8px; }
+  .tier--top .card__body { justify-content: center; padding: 2px 2px 2px 4px; gap: 10px; min-width: 0; }
   .card__name { font-stretch: 82%; }
-  .tier--lead .card__name, .tier--pair .card__name { font-size: 1.12rem; --name-min: 15px; }
-  .tier--lead .meta, .tier--pair .meta { gap: 6px; }
-  .tier--lead .meta > div, .tier--pair .meta > div { flex-wrap: nowrap; padding: 6px 9px; border-radius: 10px; }
-  .tier--lead .meta dt, .tier--pair .meta dt { font-size: .74rem; white-space: nowrap; }
-  .tier--lead .meta dt .i, .tier--pair .meta dt .i { display: none; }
-  .tier--lead .meta dd, .tier--pair .meta dd { font-size: .84rem; }
-  .tier--lead .meta__ballot dd, .tier--pair .meta__ballot dd { font-size: 1.15rem; }
-  .tier--lead .btn, .tier--pair .btn { min-height: 42px; padding: 8px 10px; font-size: .92rem; }
+  .tier--top .card__name { font-size: 1.12rem; --name-min: 15px; }
+  .tier--top .meta { gap: 6px; }
+  .tier--top .meta > div { flex-wrap: nowrap; padding: 6px 9px; border-radius: 10px; }
+  .tier--top .meta dt { font-size: .74rem; white-space: nowrap; }
+  .tier--top .meta dt .i { display: none; }
+  .tier--top .meta dd { font-size: .84rem; }
+  .tier--top .meta__ballot dd { font-size: 1.15rem; }
+  .tier--top .btn { min-height: 42px; padding: 8px 10px; font-size: .92rem; }
 
   /* members: 2 per row */
   .tier--members { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -601,8 +576,8 @@ p { margin: 0; }
   .topbar__name { display: none; }
 }
 @media (max-width: 400px) {
-  .tier--lead .meta dt, .tier--pair .meta dt { font-size: .7rem; }
-  .tier--lead .meta dd, .tier--pair .meta dd { font-size: .8rem; }
+  .tier--top .meta dt { font-size: .7rem; }
+  .tier--top .meta dd { font-size: .8rem; }
   .facts li { padding: 12px; gap: 2px 10px; }
   .facts .i { width: 30px; height: 30px; padding: 6px; }
 }
