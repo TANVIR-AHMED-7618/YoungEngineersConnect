@@ -38,7 +38,7 @@ window.YEC = {
     contactPhone: "+880 1711-000400",
     contactEmail: "panel@example.com",
     // Credit for the demo portraits. Delete this line (or set it to "") once you use real photos.
-    photoCredit: "Demo portraits are AI-generated (Stable Diffusion Face Dataset by tobecwb, CC BY 4.0).",
+    // photoCredit: "Demo portraits are AI-generated (Stable Diffusion Face Dataset by tobecwb, CC BY 4.0).",
     // Shown at the top of every profile page while the bios are still sample text. Set to "" once real details are in.
     sampleNotice: "Preview: the photo and profile details on this page are sample content and will be replaced with the candidate's own information."
   },
@@ -271,10 +271,10 @@ window.YEC = {
       id: "member-4",
       page: "member-4.html",
       role: "member",
-      name: "Engr. Md. Zurais Ibne Ashraf",
+      name: "Engr. Md. ABCDEFG",
       photo: "images/member-4.jpg",
-      membershipNo: "M/48168",
-      ballotNo: "14",
+      membershipNo: "M/00000",
+      ballotNo: "00",
       tagline: "I want to bring the skills and certifications of tech-sector engineers up to international standard.",
       discipline: "Electrical & Electronic Engineering",
       designation: "Senior Network Engineer",

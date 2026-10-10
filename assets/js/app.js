@@ -54,8 +54,7 @@
         '<div class="footer__about"><span class="brand brand--footer">' + YEC_LOGO + "</span><p>" + esc(P.slogan) + ". Vote for all " + C.length + " candidates of the panel in the " + esc(P.election) + ".</p></div>" +
         '<nav class="footer__links" aria-label="Contact">' + links + "</nav>" +
       "</div>" +
-      '<div class="footer__base"><span>© 2026 ' + esc(P.name) + "</span><span>Published for election campaign purposes</span></div>" +
-      (P.photoCredit ? '<p class="footer__credit">' + esc(P.photoCredit) + "</p>" : "") +
+      '<div class="footer__base"><span>© 2026 ' + esc(P.name) + "</span><span>Developed By <a href='https://tanvir-ahmed-7618.github.io/Tanvir-Ahmed/' style = 'text-decoration:none; color : #569eea' >Tanvir Ahmed</a></span></div>" + (P.photoCredit ? '<p class="footer__credit">' + esc(P.photoCredit) + "</p>" : "") +
     "</div></footer>";
   }
   function wireImages(root) {
